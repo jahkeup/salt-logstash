@@ -4,7 +4,7 @@ include:
 logstash-{{role}}-config:
   file.managed:
     - name: /etc/logstash/logstash-{{role}}.conf
-    - source: salt://logstash/conf/{{role}}.sls
+    - source: salt://logstash/conf/{{role}}.conf
     - replace: False
     - user: logstash
     - require:

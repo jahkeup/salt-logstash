@@ -1,11 +1,4 @@
-include:
-  - logstash
+{% set role = "shipper" %}
+{% set jar_role = "agent" %}
 
-logstash-config:
-  file.managed:
-    - name: /etc/logstash/logstash.conf
-    - source: salt://logstash/conf/shipper.conf
-    - replace: False
-    - user: logstash
-    - require:
-      - sls: logstash
+{% include 'logstash/service.jinja' %}
