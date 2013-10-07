@@ -1,0 +1,29 @@
+include:
+  - logstash
+
+logstash-{{role}}-config:
+  file.managed:
+    - name: /etc/logstash/logstash-{{role}}.conf
+    - source: salt://logstash/conf/{{role}}.sls
+    - replace: False
+    - user: logstash
+    - require:
+      - sls: logstash
+
+logstash-{{role}}-init-script:
+  file.managed:
+    - name: /opt/logstash/logstash-{{role}}-init
+    - source: salt://logstash/script/logstash-init.sh
+    - mode: 555
+    - defaults:
+      config: /etc/logstash/logtash-{{role}}.conf
+      jar_role: {{jar_role}}
+    - require:
+      - file: logstash-{{role}}-config
+
+logstash-{{role}}-init-link:
+  file.symlink:
+    - name: /etc/init.d/logstash-{{role}}
+    - target: /opt/logstash/logstash-{{role}}-init
+    - require:
+      - file: logstash-{{role}}-init-script
