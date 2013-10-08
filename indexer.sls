@@ -7,4 +7,5 @@ extend:
   logstash-{{role}}-config:
     file.managed:
       - context:
-          redis_host: {{ salt['config.get']('logstash:redis_host', '127.0.0.1') }}
+          redis_host: {{ salt['config.get']('logstash:redis_host',
+                                            '127.0.0.1') }}
