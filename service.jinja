@@ -1,29 +1,31 @@
+{% from "logstash/map.jinja" import logstash with context %}
+{% set config = '/etc/logstash/logstash-' + role + '.conf' %}
+
 include:
   - logstash
 
 logstash-{{role}}-config:
   file.managed:
     - name: /etc/logstash/logstash-{{role}}.conf
+    {% if not source == 'default' %}
+    - source: {{source}}
+    {% else %}
     - source: salt://logstash/conf/{{role}}.conf
+    {% endif %}
     - replace: False
     - user: logstash
     - require:
-      - sls: logstash
+      - file: logstash-bin
 
 logstash-{{role}}-init-script:
   file.managed:
-    - name: /opt/logstash/logstash-{{role}}-init
-    - source: salt://logstash/script/logstash-init.sh
+    - name: {{logstash.init_path}}-{{role}}
+    - source: {{logstash.init_script}}
     - mode: 555
     - defaults:
       config: /etc/logstash/logtash-{{role}}.conf
+      logstash_bin: {{logstash.bin}}
       jar_role: {{jar_role}}
+      role: {{role}}
     - require:
       - file: logstash-{{role}}-config
-
-logstash-{{role}}-init-link:
-  file.symlink:
-    - name: /etc/init.d/logstash-{{role}}
-    - target: /opt/logstash/logstash-{{role}}-init
-    - require:
-      - file: logstash-{{role}}-init-script

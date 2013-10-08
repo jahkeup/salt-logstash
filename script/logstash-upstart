@@ -1,0 +1,10 @@
+# Upstart script for logstash
+
+description "Logstash {{jar_role}} for {{role}} logging"
+start on stopped networking
+
+# Extra logstash options
+env LOGSTASH_OPTS=""
+
+exec {{logstash_bin}} {{jar_role}} $LOGSTASH_OPTS \
+  -c {{config}}

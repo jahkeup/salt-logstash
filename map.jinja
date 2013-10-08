@@ -1,0 +1,19 @@
+{%
+  set init = {
+    'Debian': {
+      'type': 'upstart',
+      'path': '/etc/init/logstash'
+    }
+  }.get(grains.os_family, {'type': 'init', 'path': '/etc/init.d/logstash'})
+%}
+
+{%
+  set logstash = {
+    'version': '1.2.1',
+    'bin': '/usr/local/bin/logstash',
+    'jar': '/opt/logstash/logstash.jar',
+    'jar_hash': 'md5=863272192b52bccf1fc2cf839a888eaf',
+    'init_script': 'salt://logstash/script/logstash-' + init['type'],
+    'init_path': init['path']
+  }
+%}
