@@ -4,13 +4,11 @@
 logstash-config-dir:
   file.directory:
     - name: /etc/logstash
-    - user: logstash
     - mode: 755
 
 logstash-bin-dir:
   file.directory:
     - name: /opt/logstash
-    - user: logstash
     - mode: 755
 
 logstash-jar:
@@ -38,7 +36,6 @@ logstash-bin:
   file.managed:
     - name: /usr/local/bin/logstash
     - mode: 555
-    - user: logstash
     - contents: |
         #!/usr/bin/env sh
         java -jar {{logstash.jar}} $@

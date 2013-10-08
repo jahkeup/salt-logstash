@@ -7,25 +7,34 @@ include:
 logstash-{{role}}-config:
   file.managed:
     - name: /etc/logstash/logstash-{{role}}.conf
-    {% if not source == 'default' %}
-    - source: {{source}}
-    {% else %}
     - source: salt://logstash/conf/{{role}}.conf
-    {% endif %}
+    - template: jinja
     - replace: False
-    - user: logstash
     - require:
       - file: logstash-bin
 
 logstash-{{role}}-init-script:
   file.managed:
+    {% if logstash.init_type == 'upstart' %}
+    - name: {{logstash.init_path}}-{{role}}.conf
+    {% else %}
     - name: {{logstash.init_path}}-{{role}}
-    - source: {{logstash.init_script}}
     - mode: 555
+    {% endif %}
+    - template: jinja
+    - source: {{logstash.init_script}}
     - defaults:
-      config: /etc/logstash/logtash-{{role}}.conf
-      logstash_bin: {{logstash.bin}}
-      jar_role: {{jar_role}}
-      role: {{role}}
+        config: {{config}}
+        logstash_bin: {{logstash.bin}}
+        jar_role: {{jar_role}}
+        role: {{role}}
     - require:
       - file: logstash-{{role}}-config
+
+{% if logstash.init_type == 'upstart' %}
+logstash-{{role}}-upstart-reload:
+  cmd.wait:
+    - name: initctl reload-configuration
+    - watch:
+      - file: logstash-{{role}}-init-script
+{% endif %}

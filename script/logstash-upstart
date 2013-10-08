@@ -6,5 +6,5 @@ start on stopped networking
 # Extra logstash options
 env LOGSTASH_OPTS=""
 
-exec {{logstash_bin}} {{jar_role}} $LOGSTASH_OPTS \
-  -c {{config}}
+exec {{logstash_bin}} {{jar_role}} $LOGSTASH_OPTS {% if config -%}
+  -f {{config}} {% endif -%}
