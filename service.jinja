@@ -37,4 +37,19 @@ logstash-{{role}}-upstart-reload:
     - name: initctl reload-configuration
     - watch:
       - file: logstash-{{role}}-init-script
+logstash-{{role}}-upstart-symlink:
+  file.symlink:
+    - name: /etc/init.d/logstash-{{role}}
+    - target: /lib/init/upstart-job
+    - require_in:
+      - file: logstash-{{role}}-init-service
+    - require:
+      - file: logstash-{{role}}-init-script
 {% endif %}
+
+logstash-{{role}}-init-service:
+  service.running:
+    - name: logstash-{{role}}
+    - enable: True
+    - require:
+      - file: logstash-{{role}}-init-script
