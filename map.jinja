@@ -15,7 +15,8 @@
     'jar_hash': 'md5=863272192b52bccf1fc2cf839a888eaf',
     'init_script': 'salt://logstash/script/logstash-' + init['type'],
     'init_path': init['path'],
-    'init_type': init['type']
+    'init_type': init['type'],
+    'redis_host': {{salt['config.get']('logstash:redis_host', '127.0.0.1')}}
   }
 %}
 
