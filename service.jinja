@@ -27,7 +27,7 @@ logstash-{{role}}-init-script:
     - defaults:
         config: {{config}}
         logstash_bin: {{logstash.bin}}
-        jar_role: {{jar_role}}
+        jar_role: agent
         role: {{role}}
     - require:
       - file: logstash-{{role}}-config

@@ -1,5 +1,4 @@
 {% set role = "web" %}
-{% set jar_role = "agent" %}
 
 {% include 'logstash/service.jinja' %}
 extend:
@@ -7,3 +6,4 @@ extend:
     file.managed:
       - context:
           config: False
+          jar_role: web
