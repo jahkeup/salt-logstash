@@ -1,4 +1,4 @@
-# -*- mode: jinja -*-
+# -*- mode: Jinja Templates -*-
 {%
   set init = {
     'Debian': {
@@ -13,12 +13,14 @@
   set logstash = {
     'version': '1.2.1',
     'bin': '/usr/local/bin/logstash',
+    'path': '/opt/logstash',
     'jar': '/opt/logstash/logstash.jar',
     'jar_hash': 'md5=863272192b52bccf1fc2cf839a888eaf',
     'init_script': 'salt://logstash/script/logstash-' + init['type'],
     'init_path': init['path'],
     'init_type': init['type'],
-    'redis_host': salt['config.get']('logstash:redis_host', '127.0.0.1')
+    'redis_host': salt['config.get']('logstash:redis_host', '127.0.0.1'),
+    'patterns': '/opt/logstash/patterns'
   }
 %}
 

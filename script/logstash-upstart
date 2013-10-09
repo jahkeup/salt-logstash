@@ -1,3 +1,4 @@
+{% from 'logstash/map.jinja' import logstash with context %}
 # Upstart script for logstash
 
 description "Logstash {{jar_role}} for {{role}} logging"
@@ -5,6 +6,10 @@ start on stopped networking
 
 # Extra logstash options
 env LOGSTASH_OPTS=""
+env SINCEDB_DIR="{{logstash.path}}"
 
+pre-start script
+  echo "[`date`]: Starting $UPSTART_JOB" >> /var/log/upstart/$UPSTART_JOB.log
+end script
 exec {{logstash_bin}} {{jar_role}} $LOGSTASH_OPTS {% if config -%}
   -f {{config}} {% endif -%}

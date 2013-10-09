@@ -43,7 +43,7 @@ logstash-{{role}}-upstart-symlink:
     - name: /etc/init.d/logstash-{{role}}
     - target: /lib/init/upstart-job
     - require_in:
-      - file: logstash-{{role}}-init-service
+      - service: logstash-{{role}}-init-service
     - require:
       - file: logstash-{{role}}-init-script
 {% endif %}
@@ -53,4 +53,9 @@ logstash-{{role}}-init-service:
     - name: logstash-{{role}}
     - enable: True
     - require:
+      - file: logstash-{{role}}-init-script
+      - file: logstash-patterns
+    - watch:
+      - file: logstash-patterns
+      - file: logstash-{{role}}-config
       - file: logstash-{{role}}-init-script

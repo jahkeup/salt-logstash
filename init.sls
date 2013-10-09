@@ -11,6 +11,13 @@ logstash-bin-dir:
     - name: /opt/logstash
     - mode: 755
 
+logstash-patterns:
+  file.recurse:
+    - name: {{logstash.patterns}}
+    - source: salt://logstash/patterns
+    - require:
+      - file: logstash-bin-dir
+
 logstash-jar:
   file.managed:
     - name: /opt/logstash/logstash-{{logstash.version}}.jar

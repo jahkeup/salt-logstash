@@ -18,7 +18,7 @@ logstash-redis-config:
 
 logstash-redis-service:
   service.running:
-    - name: redis-server
+    - name: {{service.redis}}
     - enable: True
     - require:
       - pkg: logstash-redis-server
@@ -35,7 +35,7 @@ logstash-elasticsearch:
 
 logstash-elasticsearch-service:
   service.running:
-    - name: elasticsearch
+    - name: {{service.elasticsearch}}
     - require:
       - pkg: logstash-elasticsearch
       - file: logstash-bin
