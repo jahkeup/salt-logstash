@@ -1,5 +1,5 @@
-{% from "logstash/map.jinja" import logstash with context %}
-{% set logstash_url  = "https://download.elasticsearch.org/logstash/logstash/logstash-" + logstash.version + "-flatjar.jar" %}
+{% from 'logstash/map.jinja' import logstash with context %}
+{% set logstash_url  = 'https://download.elasticsearch.org/logstash/logstash/logstash-' + logstash.version + '-flatjar.jar' %}
 
 logstash-config-dir:
   file.directory:

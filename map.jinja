@@ -1,10 +1,12 @@
+# -*- mode: jinja -*-
 {%
   set init = {
     'Debian': {
       'type': 'upstart',
       'path': '/etc/init/logstash'
     }
-  }.get(grains.os_family, {'type': 'init', 'path': '/etc/init.d/logstash'})
+  }.get(grains.os_family, {'type': 'init',
+                           'path': '/etc/init.d/logstash'})
 %}
 
 {%
@@ -16,7 +18,7 @@
     'init_script': 'salt://logstash/script/logstash-' + init['type'],
     'init_path': init['path'],
     'init_type': init['type'],
-    'redis_host': {{salt['config.get']('logstash:redis_host', '127.0.0.1')}}
+    'redis_host': salt['config.get']('logstash:redis_host', '127.0.0.1')
   }
 %}
 

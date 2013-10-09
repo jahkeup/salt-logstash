@@ -1,5 +1,6 @@
 {% from 'logstash/map.jinja' import package with context %}
 {% from 'logstash/map.jinja' import service with context %}
+
 include:
   - logstash.indexer
 
@@ -21,6 +22,9 @@ logstash-redis-service:
     - enable: True
     - require:
       - pkg: logstash-redis-server
+      - file: logstash-bin
+    - require_in:
+      - file: logstash-indexer-config
     - watch:
       - file: logstash-redis-config
 
@@ -34,6 +38,9 @@ logstash-elasticsearch-service:
     - name: elasticsearch
     - require:
       - pkg: logstash-elasticsearch
+      - file: logstash-bin
+    - require_in:
+      - file: logstash-indexer-config
 
 logstash-elasticsearch-indexing:
   cmd.wait:
