@@ -1,13 +1,9 @@
 # -*- mode: ruby -*-
 # Common matchers
 OSTIMESTAMP %{TIMESTAMP_ISO8601}
-OSPROCESS %{SPACE}+%{POSINT:process_id}*%{SPACE}+
-OSLOGLEVEL %{WORD:loglevel}
-OSCLASS \[*%{NOTSPACE:class}\]*
-OSSEP \[-\]
-OSLOGMSG %{GREEDYDATA:logmsg}
-OSMETHOD %{URIPATH:method_file}
-OSMETHODLINUM %{POSINT:method_line_num}
+OSLOGLEVEL (INFO|DEBUG|ERROR|WARN)
+OSCLASSNAME [A-Za-z\._]*
 
-OSNOVACOMPUTE %{OSTIMESTAMP}%{OSPROCESS}%{OSLOGLEVEL}%{SPACE}+%{OSCLASS}%{SPACE}+
-# %{TIMESTAMP_ISO8601:timestamp} %{POSINT:process} %{WORD:loglevel} \[*%{NOTSPACE:class}\]* \[-\] %{GREEDYDATA:logmsg} ( %{URIPATH:method_file}:%{POSINT:line_num})*
+OSLOGMSG %{DATESTAMP:timestamp}%{SPACE}+(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}+(\[*%{OSCLASSNAME:class}\]*%{SPACE}+)?(\[-\]%{SPACE}+)*(%{GREEDYDATA:logmsg} %{NOTSPACE:method} %{URIPATH:method_file}:%{POSINT:method_linum}|%{GREEDYDATA:logmsg})
+
+# %{DATESTAMP:timestamp}%{SPACE}+(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}+(\[*[A-Za-z\._]*\]*%{SPACE}+)?(\[-\]%{SPACE}+)*(%{GREEDYDATA:logmsg} %{NOTSPACE:method} %{URIPATH:method_file}:%{POSINT:linum}|%{GREEDYDATA:logmsg})
