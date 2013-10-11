@@ -20,7 +20,8 @@
     'init_path': init['path'],
     'init_type': init['type'],
     'redis_host': salt['config.get']('logstash:redis_host', '127.0.0.1'),
-    'patterns': '/opt/logstash/patterns'
+    'patterns': '/opt/logstash/patterns',
+    'debug': salt['config.get']('logstash:debug', False)
   }
 %}
 
