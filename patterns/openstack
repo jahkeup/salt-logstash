@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# Common matchers
+OSTIMESTAMP %{TIMESTAMP_ISO8601}
+OSPROCESS %{SPACE}+%{POSINT:process_id}*%{SPACE}+
+OSLOGLEVEL %{WORD:loglevel}
+OSCLASS \[*%{NOTSPACE:class}\]*
+OSSEP \[-\]
+OSLOGMSG %{GREEDYDATA:logmsg}
+OSMETHOD %{URIPATH:method_file}
+OSMETHODLINUM %{POSINT:method_line_num}
+
+OSNOVACOMPUTE %{OSTIMESTAMP}%{OSPROCESS}%{OSLOGLEVEL}%{SPACE}+%{OSCLASS}%{SPACE}+
+# %{TIMESTAMP_ISO8601:timestamp} %{POSINT:process} %{WORD:loglevel} \[*%{NOTSPACE:class}\]* \[-\] %{GREEDYDATA:logmsg} ( %{URIPATH:method_file}:%{POSINT:line_num})*
