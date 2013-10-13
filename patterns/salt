@@ -1,1 +1,1 @@
-SALTLOG %{DATESTAMP:timestamp}%{SPACE}+\[%{NOTSPACE:method}%{SPACE}*\]\[%{WORD:loglevel}%{SPACE}*\]%{SPACE}+%{GREEDYDATA:logmsg}
+SALTLOG %{TIMESTAMP_ISO8601:timestamp}%{SPACE}+\[%{NOTSPACE:method}%{SPACE}*\]\[%{WORD:loglevel}%{SPACE}*\]%{SPACE}+%{GREEDYDATA:logmsg}
