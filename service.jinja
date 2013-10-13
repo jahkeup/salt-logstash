@@ -11,6 +11,11 @@ logstash-{{role}}-config:
     - source: salt://logstash/conf/{{role}}.conf
     - template: jinja
     - replace: False
+    - defaults:
+        config: {{config}}
+        jar_role: agent
+        logstash_bin: {{logstash.bin}}
+        role: {{role}}
     - require:
       - file: logstash-bin
 
