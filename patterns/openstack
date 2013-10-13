@@ -4,6 +4,8 @@ OSTIMESTAMP %{TIMESTAMP_ISO8601}
 OSLOGLEVEL (INFO|DEBUG|ERROR|WARN)
 OSCLASSNAME [A-Za-z\._]*
 
-OSLOGMSG %{TIMESTAMP_ISO8601:timestamp}%{SPACE}+(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}+(\[*%{OSCLASSNAME:class}\]*%{SPACE}+)?(\[-\]%{SPACE}+)*(%{GREEDYDATA:logmsg} %{NOTSPACE:method} %{URIPATH:method_file}:%{POSINT:method_linum}|%{GREEDYDATA:logmsg})
-
+# OSLOGMSG %{TIMESTAMP_ISO8601:timestamp}%{SPACE}+(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}+(\[*%{OSCLASSNAME:class}\]*%{SPACE}+)?(\[-\]%{SPACE}+)*(%{GREEDYDATA:logmsg} %{NOTSPACE:method} %{URIPATH:method_file}:%{POSINT:method_linum}|%{GREEDYDATA:logmsg})
 # %{DATESTAMP:timestamp}%{SPACE}+(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}+(\[*[A-Za-z\._]*\]*%{SPACE}+)?(\[-\]%{SPACE}+)*(%{GREEDYDATA:logmsg} %{NOTSPACE:method} %{URIPATH:method_file}:%{POSINT:linum}|%{GREEDYDATA:logmsg})
+
+OSLOGMSG %{OSTIMESTAMP:timestamp}%{SPACE}(%{POSINT:pid}%{SPACE}+)*%{WORD:loglevel}%{SPACE}(\[*%{OSCLASSNAME:class}\]*%{SPACE})?(\[-\]%{SPACE}+)*%{GREEDYDATA:logmsg}
+# %{TIMESTAMP_ISO8601:timestamp}%{SPACE}(%{POSINT:pid}%{SPACE})*%{WORD:loglevel}%{SPACE}(\[*[A-Za-z\._]*\]*%{SPACE})?(\[-\]%{SPACE})%{GREEDYDATA:logmsg}
